@@ -1,0 +1,8 @@
+### Send sample payload.
+POST http://192.168.4.64/boat
+Content-Type: application/json
+
+{
+  "motor_speed": 5,
+  "servo_angle": 90
+}

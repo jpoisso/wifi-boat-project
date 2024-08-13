@@ -1,0 +1,12 @@
+[connection]
+
+[[usb_device]]
+vid = "303a"
+pid = "80d7"
+
+[[usb_device]]
+vid = "303a"
+pid = "1001"
+
+[flash]
+size = "8MB"
