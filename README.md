@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "motor_speed": 255,
-  "servo_angle": 90
+  "rudder_angle": 90
 }
 
 ```

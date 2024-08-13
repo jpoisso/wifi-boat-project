@@ -16,7 +16,7 @@ use crate::boat::Boat;
 #[derive(Debug, Serialize, Deserialize)]
 struct BoatInstruction {
     pub(crate) motor_speed: u8,
-    pub(crate) servo_angle: u32,
+    pub(crate) rudder_angle: u32,
 }
 
 pub(crate) fn setup_server(boat: Boat<'static>) -> Result<EspHttpServer<'static>> {
@@ -36,7 +36,7 @@ pub(crate) fn setup_server(boat: Boat<'static>) -> Result<EspHttpServer<'static>
         let instruction = extract_boat_instruction(&mut request)?;
         let mut boat = boat_clone.lock().unwrap();
         boat.motor.set_power(instruction.motor_speed)?;
-        boat.rudder.set_angle(instruction.servo_angle)?;
+        boat.rudder.set_angle(instruction.rudder_angle)?;
         Ok(())
     })?;
 
