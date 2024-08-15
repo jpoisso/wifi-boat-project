@@ -1,0 +1,12 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "schedule:daily"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "automerge": false,
+  "prConcurrentLimit": 3
+}

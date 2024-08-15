@@ -1,17 +1,13 @@
-use std::sync::{Arc, Mutex};
-
+use crate::boat::Boat;
+use anyhow::Result;
 use embedded_svc::http::Headers;
 use esp_idf_svc::http::{
     server::{EspHttpConnection, EspHttpServer, Request},
     Method,
 };
 use esp_idf_svc::io::Read;
-
 use serde::{Deserialize, Serialize};
-
-use anyhow::Result;
-
-use crate::boat::Boat;
+use std::sync::{Arc, Mutex};
 
 #[derive(Debug, Serialize, Deserialize)]
 struct BoatInstruction {
@@ -20,23 +16,21 @@ struct BoatInstruction {
 }
 
 pub(crate) fn setup_server(boat: Boat<'static>) -> Result<EspHttpServer<'static>> {
+    // Create a new HTTP server with a stack size of 10KB.
+    let mut server = EspHttpServer::new(&esp_idf_svc::http::server::Configuration {
+        stack_size: 10240,
+        ..Default::default()
+    })?;
+
     // Wrap the boat instance in an Arc and a Mutex to allow multiple threads to access it
     let boat = Arc::new(Mutex::new(boat));
 
-    // Server configurations
-    let configuration = esp_idf_svc::http::server::Configuration {
-        stack_size: 10240,
-        ..Default::default()
-    };
-
     // Boat instruction handler
-    let mut server = EspHttpServer::new(&configuration)?;
-    let boat_clone = Arc::clone(&boat);
     server.fn_handler::<anyhow::Error, _>("/boat", Method::Post, move |mut request| {
         let instruction = extract_boat_instruction(&mut request)?;
-        let mut boat = boat_clone.lock().unwrap();
-        boat.motor.set_power(instruction.motor_speed)?;
-        boat.rudder.set_angle(instruction.rudder_angle)?;
+        let mut boat_guard = boat.lock().unwrap();
+        boat_guard.motor.set_power(instruction.motor_speed)?;
+        boat_guard.rudder.set_angle(instruction.rudder_angle)?;
         Ok(())
     })?;
 
