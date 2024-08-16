@@ -54,7 +54,6 @@ If building on Windows 11, you will probably need to download this driver: https
 We'll use `espflash` to push our binaries to the ESP32-S3 board.
 
 ```shell
-cargo install cargo-generate
 cargo install ldproxy
 cargo install espup
 cargo install espflash
