@@ -9,4 +9,4 @@ vid = "303a"
 pid = "1001"
 
 [flash]
-size = "8MB"
+size = "16MB"

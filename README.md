@@ -16,8 +16,8 @@ POST http://192.168.4.64/boat
 Content-Type: application/json
 
 {
-  "motor_speed": 255,
-  "rudder_angle": 90
+  "motor_speed": "120",
+  "rudder_angle": "90"
 }
 
 ```

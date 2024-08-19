@@ -1,7 +1,7 @@
 use anyhow::Result;
 use esp_idf_svc::{
     eventloop::EspSystemEventLoop,
-    hal::prelude::Peripherals,
+    hal::modem::Modem,
     nvs::EspDefaultNvsPartition,
     wifi::{AccessPointConfiguration, AuthMethod, ClientConfiguration, Configuration, EspWifi},
 };
@@ -12,8 +12,8 @@ pub(crate) fn setup_wifi<'a>(
     ssid: &'a str,
     password: &'a str,
     is_ap_mode: bool,
+    modem: Modem
 ) -> Result<EspWifi<'a>> {
-    let peripherals = Peripherals::take()?;
     let sys_loop = EspSystemEventLoop::take()?;
     let nvs = EspDefaultNvsPartition::take()?;
     let ssid = ssid.try_into().unwrap();
@@ -34,7 +34,7 @@ pub(crate) fn setup_wifi<'a>(
         })
     };
 
-    let mut esp_wifi = EspWifi::new(peripherals.modem, sys_loop, Some(nvs))?;
+    let mut esp_wifi = EspWifi::new(modem, sys_loop, Some(nvs))?;
     esp_wifi.set_configuration(&configuration)?;
 
     esp_wifi.start()?;
