@@ -12,7 +12,7 @@ pub(crate) fn setup_wifi<'a>(
     ssid: &'a str,
     password: &'a str,
     is_ap_mode: bool,
-    modem: Modem
+    modem: Modem,
 ) -> Result<EspWifi<'a>> {
     let sys_loop = EspSystemEventLoop::take()?;
     let nvs = EspDefaultNvsPartition::take()?;

@@ -1,11 +1,14 @@
 use crate::boat::Boat;
 use anyhow::Result;
 use embedded_svc::http::Headers;
-use esp_idf_svc::{http::{
-    server::{EspHttpConnection, EspHttpServer, Request},
-    Method,
-}, io::Write};
 use esp_idf_svc::io::Read;
+use esp_idf_svc::{
+    http::{
+        server::{EspHttpConnection, EspHttpServer, Request},
+        Method,
+    },
+    io::Write,
+};
 use log::info;
 use serde::{Deserialize, Serialize};
 use std::sync::{Arc, Mutex};
@@ -31,14 +34,18 @@ pub(crate) fn setup_server(boat: Boat<'static>) -> Result<EspHttpServer<'static>
         let instruction = extract_boat_instruction(&mut request)?;
         info!("sending boat instruction: {instruction:?}");
         let mut boat_guard = boat.lock().unwrap();
-        boat_guard.motor.set_power(instruction.motor_speed.parse()?)?;
-        boat_guard.rudder.set_angle(instruction.rudder_angle.parse()?)?;
+        boat_guard
+            .motor
+            .set_power(instruction.motor_speed.parse()?)?;
+        boat_guard
+            .rudder
+            .set_angle(instruction.rudder_angle.parse()?)?;
         Ok(())
     })?;
 
     // Web UI handler
     let html = include_str!("./web/index.html");
-    server.fn_handler::<anyhow::Error, _>("/", Method::Get, | request| {
+    server.fn_handler::<anyhow::Error, _>("/", Method::Get, |request| {
         request.into_ok_response()?.write_all(html.as_bytes())?;
         Ok(())
     })?;

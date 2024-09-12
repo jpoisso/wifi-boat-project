@@ -8,5 +8,13 @@ pid = "80d7"
 vid = "303a"
 pid = "1001"
 
+[[usb_device]]
+vid = "303a"
+pid = "4001"
+
+[[usb_device]]
+vid = "1a86"
+pid = "55d3"
+
 [flash]
-size = "16MB"
+size = "8MB"

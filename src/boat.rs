@@ -6,10 +6,9 @@ pub(crate) struct Boat<'a> {
     pub(crate) rudder: Rudder<'a>,
 }
 
-
 pub(crate) struct Motor<'a> {
     pwm: LedcDriver<'a>,
-    max_duty: u32
+    max_duty: u32,
 }
 
 impl<'a> Motor<'a> {
@@ -35,13 +34,10 @@ pub(crate) struct Rudder<'a> {
     min_duty: u32,
     max_duty: u32,
     min_angle: u32,
-    max_angle: u32
+    max_angle: u32,
 }
 
 impl<'a> Rudder<'a> {
-
-
-
     pub(crate) fn new(servo: LedcDriver<'a>) -> Self {
         let max_duty = servo.get_max_duty();
         let min_duty = max_duty * 25 / 1000;
@@ -51,7 +47,7 @@ impl<'a> Rudder<'a> {
             min_duty,
             max_duty,
             min_angle: 0,
-            max_angle: 180
+            max_angle: 180,
         }
     }
 
@@ -60,19 +56,17 @@ impl<'a> Rudder<'a> {
         self.set_angle(90)
     }
 
-
     pub(crate) fn set_angle(&mut self, angle: u32) -> Result<()> {
         let duty = map_angle_to_duty(
-            angle, 
+            angle,
             self.min_angle,
             self.max_angle,
-            self.min_duty, 
-            self.max_duty
+            self.min_duty,
+            self.max_duty,
         );
         self.servo.set_duty(duty)?;
         Ok(())
     }
-
 }
 
 fn map_angle_to_duty(x: u32, in_min: u32, in_max: u32, out_min: u32, out_max: u32) -> u32 {

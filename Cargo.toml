@@ -1,5 +1,5 @@
 [package]
-name = "esp32s3-motor-controller"
+name = "wifi-boat-controller"
 version = "0.1.0"
 authors = ["Jonathan Poisson <jonathanpoisson@outlook.com>"]
 edition = "2021"
@@ -7,7 +7,7 @@ resolver = "2"
 rust-version = "1.80"
 
 [[bin]]
-name = "esp32s3-motor-controller"
+name = "wifi-boat-controller"
 harness = false
 
 [profile.release]
@@ -22,8 +22,8 @@ log = { version = "0.4.22", default-features = false }
 esp-idf-svc = { version = "0.49.1", features = ["default", "pio", "embassy-sync", "critical-section"], default-features = false }
 embedded-svc = { version = "0.28.0", features = ["std"], default-features = false}
 anyhow =  { version = "1.0.86", features = ["std"], default-features = false}
-serde = { version = "1.0.208", features = ["std", "derive"], default-features = false}
-serde_json = { version = "1.0.125", features = ["std"], default-features = false}
+serde = { version = "1.0.209", features = ["std", "derive"], default-features = false}
+serde_json = { version = "1.0.127", features = ["std"], default-features = false}
 
 [build-dependencies]
 embuild = "0.32.0"
